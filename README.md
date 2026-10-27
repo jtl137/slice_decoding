@@ -18,12 +18,18 @@ This repository contains the analysis code used to generate Figures 2–5 and
 1. Run 'extractedsegments.py'
 Input A and Input B correspond to the variables extracted_segments1 and extracted_segments2
 
+## Reproducing Sup. Figure 2
+1. Run 'plot_artifact_trace.py'
+
+## Reproducing Sup. Figure 3
+1. Run 'baseline_concatenate.py'
+   
+## Reproducing Sup. Figure 4
+1. Run 'extractedsegments.py'
+   
 ## Reproducing Figure 4-5 & Sup. Fig. 5-8
 1. Run `classification_analysis_1.py' to generate features and tables for each dataset
 
-   
-## Reproducing Sup. Figure 2-4
-1. Run 'baseline_concatenate.py'
 
-## Reproducing Sup. Figure 3
-1. Run 'extractedsegments.py'
+
+
