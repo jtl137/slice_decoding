@@ -1,4 +1,4 @@
-# Slice Biocomputation — Analysis Code
+# Slice Decoding — Analysis Code
 """
 This repository contains the analysis code used to generate Figures 2–5 and 
                 Supplementary Figures 2-5 of "Machine learning-assisted 
