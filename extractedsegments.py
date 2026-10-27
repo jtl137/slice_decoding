@@ -260,6 +260,10 @@ layout = [
 avg_data1, std_segment1 = plot_avg_time_series(extracted_segments1, layout, fs=2000)
 avg_data2, std_segment2 = plot_avg_time_series(extracted_segments2, layout, fs=2000)
 
+avg_data1, std_segment1 = plot_avg_time_series(extracted_segments_notissue1, layout, fs=2000)
+avg_data1, std_segment1 = plot_avg_time_series(extracted_segments_notissue2, layout, fs=2000)
+
+
 # In[ ]: band pass extracted_segments array into desired low frequency bands
 
 def bandpass_extracted_segments(filtered_segments,fs,order=3):
@@ -346,69 +350,11 @@ array2 = extracted_segments2
 fs = 2000
 f_segments_delta2, f_segments_theta2, f_segments_beta2, f_segments_gamma2, f_segments_ripple2 = bandpass_extracted_segments(array2,fs,order=3)
 print('Function Complete!')
-# In[ ]: band pass extracted_segments array into desired low frequency bands
-
-def plot_f_segments(ch, start, stop, f_segments_delta, f_segments_theta, f_segments_beta, f_segments_gamma, f_segments_ripple):
-    '''
-    Plot frequency bands from f_segments_arrays
-    Parameters:
-        - 
-    Returns:
-        - time_axis
-    '''
-    # Create time axis
-    time_axis = np.arange(f_segments_beta.shape[2])/fs
-    
-    # Get shape of filtered_segments
-    trials, channels, samples = f_segments_beta.shape
-    print('trials, channels, samples: ', f_segments_beta.shape)
-
-    # Plot individual trial responses and display each frequency band
-    for trial in range(trials):
-        plt.plot(time_axis[start:stop], f_segments_delta[trial,
-                  ch, start:stop], label='delta(1-4Hz)')
-        plt.plot(time_axis[start:stop], f_segments_theta[trial,
-                  ch, start:stop], label='theta(4-10Hz)')
-        plt.plot(time_axis[start:stop], f_segments_beta[trial,
-                  ch, start:stop], label='beta(12-30Hz)')
-        plt.plot(time_axis[start:stop], f_segments_gamma[trial,
-                  ch, start:stop], label='gamma(30-100Hz)')
-        plt.plot(time_axis[start:stop], f_segments_ripple[trial,
-                  ch,start:stop], label='ripple(100-250Hz)')
-        # plt.plot(time_axis[start:stop], filtered_segments1[trial,
-        #           ch, start:stop], label='all(0-300Hz)', alpha=0.5)
-        plt.xlabel('Time(s)')
-        plt.ylabel('uV')
-        plt.ylim(-500, 500)
-        plt.axvline(x=stim_time, color='black',
-                    linestyle='--', linewidth=2, label='STIM')
-        plt.title(f'Frequency bands channel {ch} - Trial {trial+1} response')
-        plt.grid(True)
-        plt.legend(loc='upper right', fontsize='x-small', ncol=2)
-        plt.show()
-    
-    return time_axis
-
-# Example Usage:
-ch = 0
-start = int(0*Fs)
-stop = int(10*Fs)
-stim_time = 2
-time_axis = plot_f_segments(ch, start, stop,
-        f_segments_delta1, f_segments_theta1, f_segments_beta1, 
-        f_segments_gamma1, f_segments_ripple1)
-print('plot_f_segments COMPLETE!')
-
-ch = 0
-start = int(0*Fs)
-stop = int(10*Fs)
-stim_time = 2
-time_axis = plot_f_segments(ch, start, stop,
-        f_segments_delta2, f_segments_theta2, f_segments_beta2, 
-        f_segments_gamma2, f_segments_ripple2)
-print('plot_f_segments COMPLETE!')
 
 # In[] for figure 3
+start = int(0*fs)
+stop = int(7*fs)
+stim_time = 2
 def plot_f_segments_column(
     ch, start, stop,
     f_segments_delta, f_segments_theta, f_segments_beta,
@@ -482,106 +428,64 @@ plot_f_segments_column(ch, start, stop, f_segments_delta1, f_segments_theta1, f_
 plot_f_segments_column(ch, start, stop, f_segments_delta2, f_segments_theta2, f_segments_beta2, f_segments_gamma2, f_segments_ripple2, 
                        n_trials=5,trials_to_plot=[8,34,59,77,96])
 
-# In[ plot avg of media only, slice, slice + TTX] - for supplementary figure 3
-ch=35
-avg_media_only = np.mean(extracted_segments_mediaonly[:,ch,:], axis=0)
-avg_extracted_segments1 = np.mean(extracted_segments1[:,ch,:], axis=0)
-avg_ttx = np.mean(extracted_segments_ttx[:,ch,:], axis=0)
 
-std_media_only = np.std(extracted_segments_mediaonly[:, ch, :], axis=0)
-std_extracted_segments1 = np.std(extracted_segments1[:, ch, :], axis=0)
-std_ttx = np.std(extracted_segments_ttx[:, ch, :], axis=0)
+# In[]
+# ============================================================
+# Supplementary Fig. 4: trial-to-trial variability (SD) across
+# Media only / Slice / Slice + TTX, per channel
+# ============================================================
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
-def plot_avg_segments(media_only,extracted_segments1, avg_ttx):
-    
-    # Build a time axis in seconds
-    n_samples = avg_media_only.shape[0]
-    t = np.arange(n_samples) / fs
+mpl.rcParams['figure.dpi'] = 300
+mpl.rcParams['savefig.dpi'] = 300
 
-    plt.figure(figsize=(12, 4))
-    # Media only
-    plt.subplot(1, 3, 1)
-    plt.plot(t, avg_media_only, color="blue", label="Mean", linewidth=3)
-    plt.fill_between(t, avg_media_only - std_media_only, 
-                        avg_media_only + std_media_only, 
-                        color="blue", alpha=0.3, label="±1 SD")
-    plt.title(f"Channel {ch} – Media only", fontweight="bold")
-    plt.xlabel("Time (s)", fontweight="bold")
-    plt.ylabel("µV", fontweight="bold")
-    plt.ylim(-500,2000)
-    # Extracted Segments 1
-    plt.subplot(1, 3, 2)
-    plt.plot(t, avg_extracted_segments1, color="green", label="Mean", linewidth=3)
-    plt.fill_between(t, avg_extracted_segments1 - std_extracted_segments1, 
-                        avg_extracted_segments1 + std_extracted_segments1, 
-                        color="green", alpha=0.3, label="±1 SD")
-    plt.title(f"Channel {ch} – Slice", fontweight="bold")
-    # plt.xlabel("Time (s)")
-    plt.ylim(-500,2000)
-    # TTX
-    plt.subplot(1, 3, 3)
-    plt.plot(t, avg_ttx, color="red", label="Mean", linewidth=3)
-    plt.fill_between(t, avg_ttx - std_ttx, 
-                        avg_ttx + std_ttx, 
-                        color="red", alpha=0.3, label="±1 SD")
-    plt.title(f"Channel {ch} – Slice + TTX", fontweight="bold")
-    # plt.xlabel("Time (s)")
-    plt.ylim(-500,2000)
 fs = 2000
-plot_avg_segments(avg_media_only,avg_extracted_segments1,avg_ttx)
-# In[ plot avg of media only, slice, slice + TTX] - for supplementary figure 3
-ch=37
-avg_media_only = np.mean(extracted_segments_mediaonly[:,ch,:], axis=0)
-avg_extracted_segments1 = np.mean(extracted_segments1[:,ch,:], axis=0)
-avg_ttx1 = np.mean(extracted_segments_notissue1[:,ch,:], axis=0)
+STIM_T = 2.0              # stim onset within the segment (s); segments start 2 s pre-stim
+WINDOW = (2.0, 5.0)       # post-stim window in s; use (0.0, 5.0) to reproduce the old figure
+CHANNELS = [35, 37]       # one panel per channel
+INPUT = 1                 # 1 = input A arrays, 2 = input B arrays
 
-std_media_only = np.std(extracted_segments_mediaonly[:, ch, :], axis=0)
-std_extracted_segments1 = np.std(extracted_segments1[:, ch, :], axis=0)
-std_ttx1 = np.std(extracted_segments_notissue1[:, ch, :], axis=0)
+conds = {
+    1: {"Media Only": extracted_segments_mediaonly1, "Slice": extracted_segments1, "Slice + TTX": extracted_segments_ttx1},
+    2: {"Media Only": extracted_segments_mediaonly2, "Slice": extracted_segments2, "Slice + TTX": extracted_segments_ttx2},
+}[INPUT]
+colors = {"Media Only": "blue", "Slice": "green", "Slice + TTX": "red"}
 
-avg_media_only = np.mean(extracted_segments_mediaonly[:,ch,:], axis=0)
-avg_extracted_segments2 = np.mean(extracted_segments2[:,ch,:], axis=0)
-avg_ttx2 = np.mean(extracted_segments_notissue1[:,ch,:], axis=0)
+def window_idx(win, stim_t=STIM_T, fs=fs):
+    return slice(int((stim_t + win[0]) * fs), int((stim_t + win[1]) * fs))
 
-std_media_only = np.std(extracted_segments_mediaonly[:, ch, :], axis=0)
-std_extracted_segments2 = np.std(extracted_segments2[:, ch, :], axis=0)
-std_ttx2 = np.std(extracted_segments_notissue2[:, ch, :], axis=0)
+def trial_sd(segs, ch, win):
+    """SD across trials at each time point, then summarized over the window.
+    segs: (trials, channels, samples). Returns mean and SD over time of the across-trial SD."""
+    x = segs[:, ch, window_idx(win)]
+    sd_t = x.std(axis=0, ddof=1)          # across-trial SD at each sample
+    return sd_t.mean(), sd_t.std(ddof=1), x.shape[0]
 
-def plot_avg_segments(media_only,extracted_segments1, avg_ttx, std_ttx):
-    
-    # Build a time axis in seconds
-    n_samples = avg_media_only.shape[0]
-    t = np.arange(n_samples) / fs
+fig, axes = plt.subplots(1, len(CHANNELS), figsize=(6 * len(CHANNELS), 4.5), squeeze=False)
+summary = []
+for k, ch in enumerate(CHANNELS):
+    ax = axes[0, k]
+    names = list(conds.keys())
+    vals, errs, ns = zip(*[trial_sd(conds[n], ch, WINDOW) for n in names])
+    ax.bar(names, vals, yerr=errs, capsize=4, color=[colors[n] for n in names],
+           edgecolor="black", linewidth=2.5)
+    ax.set_title(f"Channel {ch}", fontsize=12, fontweight="bold")
+    ax.set_ylabel("Trial-to-trial SD (µV)", fontsize=11, fontweight="bold")
+    plt.setp(ax.get_xticklabels(), fontweight="bold")
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.text(-0.18, 1.08, "AB"[k], transform=ax.transAxes, fontsize=22, fontweight="bold")
+    for n, v, e, nt in zip(names, vals, errs, ns):
+        summary.append((ch, n, v, e, nt))
 
-    plt.figure(figsize=(12, 4))
-    # Media only
-    plt.subplot(1, 3, 1)
-    plt.plot(t, avg_media_only, color="blue", label="Mean", linewidth=3)
-    plt.fill_between(t, avg_media_only - std_media_only, 
-                        avg_media_only + std_media_only, 
-                        color="blue", alpha=0.3, label="±1 SD")
-    plt.title(f"Channel {ch} – Media only", fontweight="bold")
-    plt.xlabel("Time (s)", fontweight="bold")
-    plt.ylabel("µV", fontweight="bold")
-    plt.ylim(-500,2000)
-    # Extracted Segments 1
-    plt.subplot(1, 3, 2)
-    plt.plot(t, avg_extracted_segments1, color="green", label="Mean", linewidth=3)
-    plt.fill_between(t, avg_extracted_segments1 - std_extracted_segments1, 
-                        avg_extracted_segments1 + std_extracted_segments1, 
-                        color="green", alpha=0.3, label="±1 SD")
-    plt.title(f"Channel {ch} – Slice", fontweight="bold")
-    # plt.xlabel("Time (s)")
-    plt.ylim(-500,2000)
-    # TTX
-    plt.subplot(1, 3, 3)
-    plt.plot(t, avg_ttx, color="red", label="Mean", linewidth=3)
-    plt.fill_between(t, avg_ttx - std_ttx, 
-                        avg_ttx + std_ttx, 
-                        color="red", alpha=0.3, label="±1 SD")
-    plt.title(f"Channel {ch} – Slice + TTX", fontweight="bold")
-    # plt.xlabel("Time (s)")
-    plt.ylim(-500,2000)
-fs = 2000
-plot_avg_segments(avg_media_only,avg_extracted_segments1,avg_ttx1,std_ttx1)
-plot_avg_segments(avg_media_only,avg_extracted_segments2,avg_ttx2,std_ttx2)
+fig.suptitle(f"Post-stimulus variability, Slice 03, Input {'AB'[INPUT-1]} "
+             f"({WINDOW[0]:g}–{WINDOW[1]:g} s)", fontsize=13, fontweight="bold", y=1.02)
+fig.tight_layout()
+tag = f"{WINDOW[0]:g}-{WINDOW[1]:g}s"
+fig.savefig(f"SuppFig4_SD_{tag}.png", bbox_inches="tight", facecolor="white")
+fig.savefig(f"SuppFig4_SD_{tag}.pdf", bbox_inches="tight", facecolor="white")
+plt.show()
+
+for ch, n, v, e, nt in summary:
+    print(f"Ch {ch} | {n:<12s} | SD = {v:6.2f} ± {e:5.2f} µV | n trials = {nt}")
