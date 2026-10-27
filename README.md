@@ -1,7 +1,7 @@
 # Slice Decoding — Analysis Code
 """
 This repository contains the analysis code used to generate Figures 2–5 and 
-                Supplementary Figures 2-5 of "Machine learning-assisted 
+                Supplementary Figures 2-8 of "Machine learning-assisted 
                 characterization of hippocampal input–output transformations 
                 on an ex vivo three-dimensional MEA platform"
 
@@ -18,22 +18,12 @@ This repository contains the analysis code used to generate Figures 2–5 and
 1. Run 'extractedsegments.py'
 Input A and Input B correspond to the variables extracted_segments1 and extracted_segments2
 
-## Reproducing Figure 4
-1. Run `classification_analysis.py' to generate features and tables for each dataset
-2. Run `compile_classifier_accuracy_auc.py` to compile table results and figure panels 
-for cross-validation performance, AUC, confusion matrices
+## Reproducing Figure 4-5 & Sup. Fig. 5-8
+1. Run `classification_analysis_1.py' to generate features and tables for each dataset
 
-## Reproducing Figure 5
-1. Run 'Feature_importance_FIG5.py'
    
-## Reproducing Sup. Figure 2
+## Reproducing Sup. Figure 2-4
 1. Run 'baseline_concatenate.py'
 
 ## Reproducing Sup. Figure 3
 1. Run 'extractedsegments.py'
-
-## Reproducing Sup. Figure 4
-1. Run 'C_regularization_SFIG4.py'
-   
-## Reproducing Sup. Figure 5
-1. Run 'inter-site_distance_SFIG5.py'
