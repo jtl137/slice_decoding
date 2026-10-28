@@ -15,19 +15,19 @@ This repository contains the analysis code used to generate Figures 2–5 and
 1. Run 'extractedsegments.py'
 
 ## Reproducing Figure 3
-1. Run 'extractedsegments.py'
+1. Run 'make_fig3bc.py'
 Input A and Input B correspond to the variables extracted_segments1 and extracted_segments2
 
-## Reproducing Sup. Figure 2
+## Reproducing Supplementary Figure 2
 1. Run 'make_supp_fig2.py'
 
-## Reproducing Sup. Figure 3
+## Reproducing Supplementary Figure 3
 1. Run 'make_supp_fig3.py'
    
-## Reproducing Sup. Figure 4
+## Reproducing Supplementary Figure 4
 1. Run 'make_supp_fig4.py'
    
-## Reproducing Figure 4-5 & Sup. Fig. 5-8
+## Reproducing Figure 4-5 & Supplementary Figures 5-8
 1. Run `classification_analysis_1.py' to generate features and tables for each dataset
 
 
