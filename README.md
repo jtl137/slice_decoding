@@ -19,7 +19,7 @@ This repository contains the analysis code used to generate Figures 2–5 and
 Input A and Input B correspond to the variables extracted_segments1 and extracted_segments2
 
 ## Reproducing Sup. Figure 2
-1. Run 'plot_artifact_trace.py'
+1. Run 'make_supp_fig2.py'
 
 ## Reproducing Sup. Figure 3
 1. Run 'make_supp_fig3.py'
