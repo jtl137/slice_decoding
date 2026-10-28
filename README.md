@@ -12,7 +12,7 @@ This repository contains the analysis code used to generate Figures 2–5 and
 - numpy, scipy, scikit-learn, matplotlib
 
 ## Reproducing Figure 2
-1. Run 'extractedsegments.py'
+1. Run 'make_fig2.py'
 
 ## Reproducing Figure 3
 1. Run 'make_fig3bc.py'
