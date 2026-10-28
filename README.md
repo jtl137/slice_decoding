@@ -22,10 +22,10 @@ Input A and Input B correspond to the variables extracted_segments1 and extracte
 1. Run 'plot_artifact_trace.py'
 
 ## Reproducing Sup. Figure 3
-1. Run 'baseline_concatenate.py'
+1. Run 'make_supp_fig3.py'
    
 ## Reproducing Sup. Figure 4
-1. Run 'extractedsegments.py'
+1. Run 'make_supp_fig4.py'
    
 ## Reproducing Figure 4-5 & Sup. Fig. 5-8
 1. Run `classification_analysis_1.py' to generate features and tables for each dataset
